@@ -1,6 +1,9 @@
 import React from "react";
 
-function Card() {
+function Card(props) {
+  let Options = props.options;
+  let priceOptions = Object.keys(Options);
+
   return (
     <div>
       <div>
@@ -8,10 +11,15 @@ function Card() {
           className="card mt-3"
           style={{ width: "18rem", maxHeight: "360px" }}
         >
-          <img src="https://cdn.shopify.com/s/files/1/0279/6329/3831/products/Chocolate-Truffle-Pastries_grande.jpg?v=1577958105" className="card-img-top" alt="..." />
+          <img
+            src={props.imgSrc}
+            className="card-img-top"
+            alt="..."
+            style={{height:"160px" ,objectFit:"fill"}}
+          />
           <div className="card-body">
-            <h5 className="card-title">Card title</h5>
-            <p className="card-text">This is some imp text</p>
+            <h5 className="card-title">{props.foodName}</h5>
+            {/* <p className="card-text">This is some imp text</p> */}
             <div className="container w-100">
               <select className="m-2 h-100  bg-success rounded">
                 {Array.from(Array(6), (e, i) => {
@@ -23,8 +31,13 @@ function Card() {
                 })}
               </select>
               <select className="m-2 h-100  bg-success rounded">
-                <option value="half">Half</option>{" "}
-                <option value="full">Full</option>{" "}
+                {priceOptions.map((data) => {
+                  return (
+                    <option key={data} value={data}>
+                      {data}
+                    </option>
+                  );
+                })}
               </select>
               <div className="d-inline h-100 fs-5">Total Price</div>
             </div>

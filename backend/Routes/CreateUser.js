@@ -4,6 +4,14 @@ const User = require("../models/User");
 // validators
 const { body, validationResult } = require("express-validator");
 
+// hasing pass
+const bcrypt = require("bcryptjs")
+
+// jwt
+const jwt = require("jsonwebtoken")
+//jwt secret
+const jwtSecret = "MyNameIsHarshIAmAFullStackDeveloper@##"
+
 router.post(
   "/createuser",
   [
@@ -16,11 +24,13 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    const salt = await bcrypt.genSalt(10)
+    let secPassword= await bcrypt.hash(req.body.password,salt)
     try {
       await User.create({
         name: req.body.name,
         location: req.body.location,
-        password: req.body.password,
+        password: secPassword,
         email: req.body.email,
       });
 
@@ -51,10 +61,24 @@ router.post(
         return res.status(400).json({ errors: "Wrong Email!!" });
       }
 
-      if (req.body.password !== userData.password) {
+      // hashing compare
+      const pwdCompare = await bcrypt
+      .compare(req.body.password,userData.password) 
+
+      if (!pwdCompare) {
         return res.status(400).json({ errors: "Wrong Password!!" });
       }
-      return res.json({ success: true });
+// jwt signature
+      const data = {
+        user:{
+            id:userData.id
+        }
+      }
+
+      // auth token generation
+      const authToken = jwt.sign(data,jwtSecret)
+
+      return res.json({ success: true,authToken:authToken });
     } catch (error) {
       console.log(error);
       res.json({ success: false });

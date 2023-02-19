@@ -7,8 +7,8 @@ function Login() {
     password: "",
   });
 
-//after login success navigate to home page 
-  let navigate = useNavigate()
+  //after login success navigate to home page
+  let navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +29,9 @@ function Login() {
       alert("Enter valid credentials");
     }
     if (json.success) {
+      // storing token inlocal storage
+      localStorage.setItem("authToken", json.authToken);
+      console.log(localStorage.getItem("authToken"));
       navigate("/");
     }
   };

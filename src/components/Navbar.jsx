@@ -11,10 +11,12 @@ function Navbar() {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    navigate("/login");
+    navigate("/");
   };
 
   return (
+
+    
     <nav className="navbar navbar-expand-lg navbar-dark bg-success">
       <div className="container-fluid">
         <Link className="navbar-brand fs-1 fst-italic" to="/">
@@ -37,7 +39,7 @@ function Navbar() {
               <Link
                 className="nav-link active fs-5 "
                 aria-current="page"
-                href="#"
+                to="/"
               >
                 Home
               </Link>
@@ -48,7 +50,7 @@ function Navbar() {
                 <Link
                   className="nav-link active fs-5 "
                   aria-current="page"
-                  href="#"
+                  to="/myOrder"
                 >
                   My Orders
                 </Link>

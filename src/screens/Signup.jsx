@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export default function Signup() {
   const [credentials, setcredentials] = useState({
@@ -8,6 +10,7 @@ export default function Signup() {
     password: "",
     geolocation: "",
   });
+  let navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,8 +29,11 @@ export default function Signup() {
     const json = await response.json();
     console.log(json);
 
-    if (!json.success) {
-      alert("Enter valid credentials");
+    if (json.success) {
+      localStorage.setItem("token", json.authToken);
+      navigate("/login");
+    } else {
+      alert("Enter Valid Credentials");
     }
   };
 
@@ -36,7 +42,10 @@ export default function Signup() {
   };
 
   return (
-    <>
+    <div style={{ backgroundImage: 'url("https://images.pexels.com/photos/1565982/pexels-photo-1565982.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")', backgroundSize: 'cover',height: '100vh' }}>
+      <div>
+        <Navbar />
+      </div>
       <div className="container">
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -59,12 +68,12 @@ export default function Signup() {
               type="email"
               className="form-control"
               name="email"
+              placeholder="abc@gmail.com"
               value={credentials.email}
               onChange={onChange}
-           
               aria-describedby="emailHelp"
             />
-            <div id="emailHelp" className="form-text">
+            <div id="emailHelp" className="form-text" style={{color:"white"}}>
               We'll never share your email with anyone else.
             </div>
           </div>
@@ -73,6 +82,7 @@ export default function Signup() {
               Password
             </label>
             <input
+            placeholder="More than 4 characters"
               type="password"
               className="form-control"
               name="password"
@@ -102,6 +112,6 @@ export default function Signup() {
           </Link>
         </form>
       </div>
-    </>
+    </div>
   );
 }

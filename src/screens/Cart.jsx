@@ -18,10 +18,8 @@ export default function Cart() {
 
   const handleCheckOut = async () => {
     let userEmail = localStorage.getItem("userEmail");
-    // console.log(data,localStorage.getItem("userEmail"),new Date())
-    let response = await fetch("http://localhost:5000/api/auth/orderData", {
-      // credentials: 'include',
-      // Origin:"http://localhost:3000/login",
+    let response = await fetch("http://localhost:5000/api/orderData", {
+   
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -32,7 +30,7 @@ export default function Cart() {
         order_date: new Date().toDateString()
       })
     });
-    console.log("JSON RESPONSE:::::", response.status)
+
     if (response.status === 200) {
       dispatch({ type: "DROP" })
     }

@@ -21,7 +21,7 @@ function Home() {
     setFoodItem(response[0]);
     setFoodCat(response[1]);
 
-    // console.log(response[0],response[1])
+    
   };
 
   useEffect(() => {
@@ -54,12 +54,7 @@ function Home() {
                     setSearch(e.target.value);
                   }}
                 />
-                {/* <button
-                  className="btn btn-outline-success text-white bg-success"
-                  type="submit"
-                >
-                  Search
-                </button> */}
+               
               </div>
             </div>
             <div className="carousel-item active">
